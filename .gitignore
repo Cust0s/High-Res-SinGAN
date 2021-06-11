@@ -1,0 +1,7 @@
+# Don't track content of these folders
+Downloads/
+imgs/
+Output/
+TrainedModels/
+__pycache__/
+.idea
