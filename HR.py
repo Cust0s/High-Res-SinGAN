@@ -11,12 +11,18 @@ if __name__ == '__main__':
     parser.add_argument('--input_name', help='input image name', required=True)
     parser.add_argument('--mode', help='task to be done', default='hr_train')
     parser.add_argument('--auto_lk', help='Automatic layer/kernel init', default=True)
-    parser.add_argument('--size', help='Image size', default=400)
+    parser.add_argument('--size', type=int, help='Image size', default=400)
     
     opt = parser.parse_args()
+    # set max size to size
+    opt.max_size = opt.size
+    # set min size to size//10   opt.min_size =
+    opt.min_size = int(opt.max_size / 10)
+    opt.nfc = 8 * math.floor((0.128 * opt.max_size) / 8)
+    opt.min_nfc = opt.nfc
+    opt.num_layer = math.floor(((0.44 * opt.min_size) - 1) / (opt.ker_size - 1))
     opt = functions.post_config(opt)
-    #set max size to size
-    #set min size to size//10   opt.min_size = 
+
     Gs = []
     Zs = []
     reals = []
