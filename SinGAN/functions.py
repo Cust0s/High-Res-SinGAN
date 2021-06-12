@@ -274,7 +274,7 @@ def generate_dir2save(opt):
     elif opt.mode == 'splicing_random_samples':
         dir2save = '%s/RandomSamples_Splicing/%s/%s/gen_start_scale=%d' % (opt.out, opt.original_name[:-4], opt.input_name[:-4], opt.gen_start_scale)
     elif opt.mode == 'HR_random_samples':  
-        dir2save = '%s/RandomSamples_HR/%s/%s/gen_start_scale=%d' % (opt.out,opt.input_name[:-4], opt.gen_start_scale)
+        dir2save = '%s/RandomSamples_HR/%s/gen_start_scale=%d' % (opt.out,opt.input_name[:-4], opt.gen_start_scale)
     elif opt.mode == 'random_samples_arbitrary_sizes':
         dir2save = '%s/RandomSamples_ArbitrarySizes/%s/scale_v=%f_scale_h=%f' % (opt.out,opt.input_name[:-4], opt.scale_v, opt.scale_h)
     elif opt.mode == 'animation':
@@ -294,10 +294,10 @@ def generate_dir2save(opt):
 def post_config(opt):
     # init fixed parameters
     opt.device = torch.device("cpu" if opt.not_cuda else "cuda:0")
-    if opt.auto_lk:
-        opt.nfc = 8*math.floor((0.128*opt.max_size)/8)
-        opt.min_nfc = opt.nfc
-        opt.num_layer = math.floor(((0.44 * opt.min_size) - 1) / (opt.ker_size - 1))
+    # if opt.auto_lk:
+    #     opt.nfc = 8*math.floor((0.128*opt.max_size)/8)
+    #     opt.min_nfc = opt.nfc
+    #     opt.num_layer = math.floor(((0.44 * opt.min_size) - 1) / (opt.ker_size - 1))
     opt.niter_init = opt.niter
     opt.noise_amp_init = opt.noise_amp
     opt.nfc_init = opt.nfc
