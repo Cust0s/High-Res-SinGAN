@@ -134,6 +134,14 @@ def SinGAN_generate(Gs,Zs,reals,NoiseAmp,opt,in_s=None,scale_v=1,scale_h=1,n=0,g
             if n == len(reals)-1:
                 if opt.mode == 'train':
                     dir2save = '%s/RandomSamples/%s/gen_start_scale=%d' % (opt.out, opt.input_name[:-4], gen_start_scale)
+                elif opt.mode == 'splicing_train':
+                    opt.mode = 'splicing_random_samples'
+                    opt.gen_start_scale = gen_start_scale
+                    dir2save = functions.generate_dir2save(opt)
+                elif opt.mode == 'hr_train':
+                    opt.mode = 'HR_random_samples'
+                    opt.gen_start_scale = gen_start_scale
+                    dir2save = functions.generate_dir2save(opt)
                 else:
                     dir2save = functions.generate_dir2save(opt)
                 try:
