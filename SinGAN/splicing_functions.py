@@ -47,9 +47,6 @@ def spliceTrain(opt):
     reals = []
     NoiseAmp = []
     dir2save = functions.generate_dir2save(opt)
-    print(opt.original_name)
-    print(opt.input_name)
-    print(dir2save)
 
     if (os.path.exists(dir2save)):
         print('trained model already exist')
@@ -58,14 +55,35 @@ def spliceTrain(opt):
             os.makedirs(dir2save)
         except OSError:
             pass
-        print("before training")
-        print(dir2save)
         real = functions.read_image(opt)
         functions.adjust_scales2image(real, opt)
         train(opt, Gs, Zs, reals, NoiseAmp)
-        SinGAN_generate(Gs,Zs,reals,NoiseAmp,opt)
+        SinGAN_generate(Gs,Zs,reals,NoiseAmp,opt, gen_start_scale=opt.gen_start_scale)
     
     
+    
+def genRawEdit(opt, imgs):
+    print("genRawEdit")
+    images = []
+    for img in imgs:
+        
+        print(img)
+        images.append(Image.open(img))
+
+    #images = [Image.open(x) for x in imgs]
+    
+    width, height = images[0].size
+    
+    newWidth = width * 2
+    newHeight = height * 2
+    
+    rawEditImg = Image.new('RGB', (newWidth, newHeight))
+    rawEditImg.paste(images[0], (0,0))
+    rawEditImg.paste(images[1], (width,0))
+    rawEditImg.paste(images[2], (0,height))
+    rawEditImg.paste(images[3], (width, height))
+
+    rawEditImg.save('%s/%s_edit.png' % (opt.input_dir, opt.input_name[:-4]))
     
     
     

@@ -204,6 +204,7 @@ def train_single_scale(netD,netG,reals,Gs,Zs,in_s,NoiseAmp,opt,centers=None):
 
         if epoch % 25 == 0 or epoch == (opt.niter-1):
             print('scale %d/%d:[%d/%d] D:%f G:%f Rec:%f' % (len(Gs), opt.stop_scale, epoch, opt.niter, errD, errG, rec_loss))
+            #print('scale %d/%d:[%d/%d] D:%f G:%f Rec:%f' % (len(Gs), opt.stop_scale, epoch, opt.niter, errD, errG, rec_loss), end='\r', flush=True)
             # print('scale %d/%d:[%d/%d] D:%f G:%f Rec:%f' % (len(Gs),opt.stop_scale, epoch, (opt.niter-int(opt.scale_num*opt.niter*0.1)), errD, errG, rec_loss)) #epoch decay
 
         if epoch % 500 == 0 or epoch == (opt.niter-1):

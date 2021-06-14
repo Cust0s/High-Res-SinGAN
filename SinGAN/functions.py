@@ -237,6 +237,10 @@ def load_trained_pyramid(opt, mode_='train'):
     opt.mode = 'train'
     if (mode == 'animation_train') | (mode == 'SR_train') | (mode == 'paint_train'):
         opt.mode = mode
+        
+    if mode == 'splicing_editing' :
+        opt.mode = 'splicing_train'
+    
     dir = generate_dir2save(opt)
     if(os.path.exists(dir)):
         Gs = torch.load('%s/Gs.pth' % dir)
@@ -267,6 +271,7 @@ def generate_dir2save(opt):
         dir2save = 'TrainedModels/HR/%s/scale_factor=%f,alpha=%d' % (opt.input_name[:-4], opt.scale_factor_init,opt.alpha)     
     elif (opt.mode == 'animation_train') :
         dir2save = 'TrainedModels/%s/scale_factor=%f_noise_padding' % (opt.input_name[:-4], opt.scale_factor_init)
+    
     elif (opt.mode == 'paint_train') :
         dir2save = 'TrainedModels/%s/scale_factor=%f_paint/start_scale=%d' % (opt.input_name[:-4], opt.scale_factor_init,opt.paint_start_scale)
     elif opt.mode == 'random_samples':
@@ -285,6 +290,8 @@ def generate_dir2save(opt):
         dir2save = '%s/Harmonization/%s/%s_out' % (opt.out, opt.input_name[:-4],opt.ref_name[:-4])
     elif opt.mode == 'editing':
         dir2save = '%s/Editing/%s/%s_out' % (opt.out, opt.input_name[:-4],opt.ref_name[:-4])
+    elif opt.mode == 'splicing_editing':
+        dir2save = '%s/RandomSamples_Splicing/%s/edit/gen_start_scale=%d' % (opt.out, opt.original_name[:-4], opt.gen_start_scale)
     elif opt.mode == 'paint2image':
         dir2save = '%s/Paint2image/%s/%s_out' % (opt.out, opt.input_name[:-4],opt.ref_name[:-4])
         if opt.quantization_flag:
@@ -294,10 +301,6 @@ def generate_dir2save(opt):
 def post_config(opt):
     # init fixed parameters
     opt.device = torch.device("cpu" if opt.not_cuda else "cuda:0")
-    # if opt.auto_lk:
-    #     opt.nfc = 8*math.floor((0.128*opt.max_size)/8)
-    #     opt.min_nfc = opt.nfc
-    #     opt.num_layer = math.floor(((0.44 * opt.min_size) - 1) / (opt.ker_size - 1))
     opt.niter_init = opt.niter
     opt.noise_amp_init = opt.noise_amp
     opt.nfc_init = opt.nfc
@@ -354,7 +357,7 @@ def quant2centers(paint, centers):
 def dilate_mask(mask,opt):
     if opt.mode == "harmonization":
         element = morphology.disk(radius=7)
-    if opt.mode == "editing":
+    if (opt.mode == "editing") | (opt.mode == "splicing_editing"):
         element = morphology.disk(radius=20)
     mask = torch2uint8(mask)
     mask = mask[:,:,0]
