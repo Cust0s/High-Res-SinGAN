@@ -22,7 +22,7 @@ SinGAN produces random sample images from a single natural image using a generat
 ```
 python -m pip install -r requirements.txt
 ```
----
+
 # Random Sample Generation
 
 ## Standard Resolution
@@ -34,7 +34,6 @@ python main_train.py --input_name <training_image_file_name>
 Training image files for the standard resolution model need to be placed in [Input/Images/](Input/Images/).
 The training time should be about 40 minutes on an NVIDIA GeForce RTX 2070 SUPER.
 
----
 ## High Resolution
 
 ### Optimization (Method 1)
