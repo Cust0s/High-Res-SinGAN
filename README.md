@@ -29,9 +29,11 @@ python -m pip install -r requirements.txt
 
 To train a model with the default parameters of SinGAN run:
 ```
-python main_train.py --input_name cityscape.jpg
+python main_train.py --input_name <training_image_file_name>
 ```
+Training image files for the standard resolution model need to be placed in [Input/Images/](Input/Images/).
 The training time should be about 40 minutes on an NVIDIA GeForce RTX 2070 SUPER.
+
 
 ### High Resolution
 
@@ -48,7 +50,7 @@ this method run:
 ```
 python HR.py --input_name <training_image_file_name> --size <desired output size>
 ```
-
+Training image files for the high resolution model using method 1 need to be placed in [Input/Images/](Input/Images/).
 
 ### Image Splicing (Method 2)
 
@@ -61,4 +63,4 @@ Images may be any size up to 500px for the longest dimension. To use this method
 ```
 python splicing.py --input_name <training_image_file_name>
 ```
-
+Training image files for the high resolution model using method 2 need to be placed in [Input/Splicing/](Input/Splicing/).
