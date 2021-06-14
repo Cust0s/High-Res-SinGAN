@@ -5,7 +5,7 @@ capable of producing images up to 500 x 500 pixels.
 
 This repository is part of the *Neural Networks for Image Processing* course at DGIST.
 For this course, several presentations were held. The presentation files can be found
-under [/supplementary_files/](supplementary_files/). The two-page paper concluding this
+in [supplementary_files/](supplementary_files/). The two-page paper concluding this
 project can be found [here](supplementary_files/High-Res-SinGAN_paper.pdf).
 
 ### SinGAN
@@ -35,7 +35,7 @@ The training time should be about 40 minutes on an NVIDIA GeForce RTX 2070 SUPER
 
 ### High Resolution
 
-#### Optimization (Method 1)
+### Optimization (Method 1)
 
 High resolution image generation can be achieved by modifying the structure of SinGAN. For this, we have 
 introduced additional parameters that are adjusted automatically. The full structure is as follows:
@@ -50,7 +50,7 @@ python HR.py --input_name <training_image_file_name> --size <desired output size
 ```
 
 
-#### Image Splicing (Method 2)
+### Image Splicing (Method 2)
 
 Another method for generating high resolution images is divide the image into smaller sections that are each
 trained individually and later spliced together to create a high resolution output.
