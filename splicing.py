@@ -20,10 +20,8 @@ if __name__ == '__main__':
     parser.add_argument('--ref_dir', help='input reference dir', default='')
     
 
-    
     parser.add_argument('--mode', help='task to be done', default='splicing_train')
 
-    
     opt = parser.parse_args()
     opt = functions.post_config(opt)
     opt.original_name = opt.input_name  #used to call the folder the correct name for the original image
@@ -42,10 +40,6 @@ if __name__ == '__main__':
         print(opt.input_name)
         sf.spliceTrain(opt)
 
-    
-    
-    
-    
     #train editing network
     opt.min_size = 50
     opt.max_size = 500
@@ -53,18 +47,10 @@ if __name__ == '__main__':
     opt.input_name = opt.original_name
     opt.mode = 'splicing_train'
     
-    print("Main Edit Train")
-    print(opt.input_dir)
-    print(opt.input_name)
     sf.spliceTrain(opt)
-    
-    
-    
     
     #generate raw edit images
     #get random sample images and splice them together
-    
-    
     # generate lists of random gen slices
     images = []
     for i in range(1,5):        #iterate over the 4 slices
@@ -83,22 +69,14 @@ if __name__ == '__main__':
     for x in selected:
         print(x)
         
-        
-        
-    #save raw edit as "%s_edit.png" % (opt.original_name[:-4])
+    # Todo: add automated mask creation
 
-    #CREATE MASK
-
-    #todo create a list of 4 selected images
+    # Todo: create a list of 4 selected images
     sf.genRawEdit(opt, selected)
     
-    # add option to create multiple images
-    
-    
-    
+    # ToDo: add option to create multiple images
     
     #Use trained model and editing image to edit image
-    
     #get trained model here
     print("INFERENCE")
     opt.mode = 'splicing_editing'
@@ -122,15 +100,10 @@ if __name__ == '__main__':
         except OSError:
             pass
             
-            
-        
         real = functions.read_image(opt)
         real = functions.adjust_scales2image(real, opt)
-        print("TTTTTTTTTTTTTTTTT")
-        
         
         Gs, Zs, reals, NoiseAmp = functions.load_trained_pyramid(opt)
-        print("TTTTTTTTTTTTTTTTT2")
         if (opt.editing_start_scale < 1) | (opt.editing_start_scale > (len(Gs)-1)):
             print("injection scale should be between 1 and %d" % (len(Gs)-1))
         else:
@@ -150,8 +123,6 @@ if __name__ == '__main__':
 
             mask = functions.dilate_mask(mask, opt)
             
-            
-            
             N = len(reals) - 1
             n = opt.editing_start_scale
             in_s = imresize(ref, pow(opt.scale_factor, (N - n + 1)), opt)
@@ -164,13 +135,3 @@ if __name__ == '__main__':
             out = (1-mask)*real+mask*out
             plt.imsave('%s/start_scale=%d_masked.png' % (dir2save, opt.editing_start_scale), functions.convert_image_np(out.detach()), vmin=0, vmax=1)
             print('%s/start_scale=%d_masked.png' % (dir2save, opt.editing_start_scale))
-
-
-
-
-    
-    
-    
-    
-   
-
